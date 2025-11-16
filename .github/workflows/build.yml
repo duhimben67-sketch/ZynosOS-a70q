@@ -1,0 +1,44 @@
+name: ZynosOS A70Q Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout manifest
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y repo git-core gnupg flex bison build-essential zlib1g-dev \
+          g++-multilib libxml2-utils libc6-dev-i386 lib32ncurses5-dev \
+          x11proto-core-dev libx11-dev lib32z1-dev ccache curl python-is-python3 unzip
+
+      - name: Initialize repo
+        run: |
+          mkdir lineage
+          cd lineage
+          repo init -u https://github.com/LineageOS/android.git -b lineage-21.0
+          cp ../manifest.xml .repo/local_manifests/manifest.xml || mkdir -p .repo/local_manifests && cp ../manifest.xml .repo/local_manifests/manifest.xml
+
+      - name: Sync sources (this takes long)
+        run: |
+          cd lineage
+          repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune -j16
+
+      - name: Build ROM
+        run: |
+          cd lineage
+          . build/envsetup.sh
+          lunch lineage_a70q-userdebug
+          mka bacon -j16
+
+      - name: Upload ROM
+        uses: actions/upload-artifact@v3
+        with:
+          name: ZynosOS-A70Q
+          path: lineage/out/target/product/a70q/*.zip
