@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+    <!-- LineageOS 21 source -->
+    <remote name="github" fetch="https://github.com/" />
+    <default revision="lineage-21.0" remote="github" sync-j="4" />
+
+    <!-- Device Tree -->
+    <project name="LineageOS/android_device_samsung_a70q" path="device/samsung/a70q" />
+    <project name="LineageOS/android_device_samsung_sm6150-common" path="device/samsung/sm6150-common" />
+    <project name="LineageOS/android_device_samsung_common" path="device/samsung/common" />
+
+    <!-- Kernel Source -->
+    <project name="LineageOS/android_kernel_samsung_sm6150" path="kernel/samsung/sm6150" />
+
+    <!-- Vendor Blobs -->
+    <project name="TheMuppets/proprietary_vendor_samsung" path="vendor/samsung" />
+    <project name="TheMuppets/proprietary_vendor_qcom" path="vendor/qcom" />
+
+</manifest>
