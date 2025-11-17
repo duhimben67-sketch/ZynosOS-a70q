@@ -38,7 +38,7 @@ jobs:
           mka bacon -j16
 
       - name: Upload ROM
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ZynosOS-A70Q
           path: lineage/out/target/product/a70q/*.zip
