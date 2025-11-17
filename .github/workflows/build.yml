@@ -8,36 +8,45 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout manifest
+      - name: Checkout manifest repo
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           sudo apt update
-          sudo apt install -y repo git-core gnupg flex bison build-essential zlib1g-dev \
-          g++-multilib libxml2-utils libc6-dev-i386 lib32ncurses5-dev \
-          x11proto-core-dev libx11-dev lib32z1-dev ccache curl python-is-python3 unzip
+          sudo apt install -y repo git-core gnupg flex bison build-essential \
+          zlib1g-dev g++-multilib libxml2-utils libc6-dev-i386 lib32ncurses5-dev \
+          x11proto-core-dev libx11-dev lib32z1-dev ccache curl python-is-python3 \
+          unzip rsync
 
-      - name: Initialize repo
+      - name: Initialize Repo
         run: |
           mkdir lineage
           cd lineage
           repo init -u https://github.com/LineageOS/android.git -b lineage-21.0
-          cp ../manifest.xml .repo/local_manifests/manifest.xml || mkdir -p .repo/local_manifests && cp ../manifest.xml .repo/local_manifests/manifest.xml
+          mkdir -p .repo/local_manifests
+          cp ../manifest.xml .repo/local_manifests/manifest.xml
 
-      - name: Sync sources (this takes long)
+      - name: Sync Sources (long step)
         run: |
           cd lineage
-          repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune -j16
+          repo sync -c --no-clone-bundle --no-tags \
+          --optimized-fetch --prune -j8
+
+      - name: Setup Build Environment
+        run: |
+          cd lineage
+          source build/envsetup.sh
+          lunch lineage_a70q-userdebug
 
       - name: Build ROM
         run: |
           cd lineage
-          . build/envsetup.sh
+          source build/envsetup.sh
           lunch lineage_a70q-userdebug
-          mka bacon -j16
+          mka bacon -j$(nproc)
 
-      - name: Upload ROM
+      - name: Upload ROM Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ZynosOS-A70Q
