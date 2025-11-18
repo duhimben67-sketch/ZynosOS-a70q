@@ -5,19 +5,17 @@
     <remote name="lineage" fetch="https://github.com/LineageOS/" />
     <remote name="muppets" fetch="https://github.com/TheMuppets/" />
 
-    <default revision="lineage-21.0" remote="lineage" sync-j="4" />
-
     <!-- Device Trees -->
-    <project name="android_device_samsung_a70q" path="device/samsung/a70q" remote="lineage" />
-    <project name="android_device_samsung_sm6150-common" path="device/samsung/sm6150-common" remote="lineage" />
-    <project name="android_device_samsung_common" path="device/samsung/common" remote="lineage" />
+    <project name="android_device_samsung_a70q" path="device/samsung/a70q" remote="lineage" revision="lineage-21.0" />
+    <project name="android_device_samsung_sm6150-common" path="device/samsung/sm6150-common" remote="lineage" revision="lineage-21.0" />
+    <project name="android_device_samsung_common" path="device/samsung/common" remote="lineage" revision="lineage-21.0" />
 
     <!-- Kernel -->
-    <project name="android_kernel_samsung_sm6150" path="kernel/samsung/sm6150" remote="lineage" />
+    <project name="android_kernel_samsung_sm6150" path="kernel/samsung/sm6150" remote="lineage" revision="lineage-21.0" />
 
     <!-- Vendor Blobs -->
-    <project name="proprietary_vendor_samsung" path="vendor/samsung/sm6150-common" remote="muppets" />
-    <project name="proprietary_vendor_samsung_a70q" path="vendor/samsung/a70q" remote="muppets" />
-    <project name="proprietary_vendor_qcom_sm6150" path="vendor/qcom/sm6150" remote="muppets" />
+    <project name="proprietary_vendor_samsung" path="vendor/samsung/sm6150-common" remote="muppets" revision="lineage-21.0" />
+    <project name="proprietary_vendor_samsung_a70q" path="vendor/samsung/a70q" remote="muppets" revision="lineage-21.0" />
+    <project name="proprietary_vendor_qcom_sm6150" path="vendor/qcom/sm6150" remote="muppets" revision="lineage-21.0" />
 
 </manifest>
